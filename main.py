@@ -65,16 +65,6 @@ class Mage :
 
     def stats (self):
         print(str(self.getMnom()) + " a " + str(self.getMPV()) + " pv et " + str(self.getMMana()) + "/" + str(self.getMManaTot()) + " mana")  
-
-    def jouer (self) : 
-        choix = input("Entrez le numéro de la carte que vous voulez jouer. \n")
-        prix = self.__main[choix].getMana()
-        if prix<=self.getMMana(): 
-            carte = self.__main.pop(choix)
-            self.__zdj.append(carte)
-            self.setMana(-prix)
-            if choix.isCristal == True : 
-                self.setManaTot(carte.getValeur())
         
 
 
@@ -89,6 +79,9 @@ class Cristal (Carte) :
 
     def getType (self):
         return self.type
+
+    def cStats (self) : 
+        print ("Cette carte est de type " + str(self.getType()) + ", coûte " + str(self.getMana()) + ", sa description est : " + str(self.getDes()) + " et sa valeur est de " + str(self.getValeur()))
 
 
 
@@ -139,18 +132,75 @@ class Blast (Carte) :
 #Création des objets
 player1 = Mage(input ("Choisissez votre nom \n"))
 player2 = Mage(input ("Choisissez votre nom \n"))
-test = Creature(3,"Troll", "urqhrsghtightdi",10,5)
-
-# cristal1 = Cristal(1)
-# cristal2 = Cristal(2)
-# cristal3 = Cristal(3)
+troll = Creature(4,"Troll", "urqhrsghtightdi",10,5)
+cristal1 = Cristal(2,"Petit cristal","",1)
+cristal2 = Cristal(3,"Cristal moyen","",2)
+cristal3 = Cristal(5,"Gros cristal","",3)
+bdf = Blast(3,"Boule de feu", "ça brûle", 4)
 
 #variables
 activeplayer = player1
 passiveplayer = player2
 
+#fonctions
+def jouer () : 
+        choix = input("Entrez le numéro de la carte que vous voulez jouer. \n")
+        if activeplayer.__main[choix].getType()!="Blast":
+            prix = activeplayer.__main[choix].getMana()
+            if prix<=activeplayer.getMMana(): 
+                carte = activeplayer.__main.pop(choix)
+                activeplayer.__zdj.append(carte)
+                activeplayer.setMana(-prix)
+                if choix.isCristal == True : 
+                    activeplayer.setManaTot(carte.getValeur())
+        else : 
+            cible = (input("Entrez le numéro de votre cible (0 pour le joueur ennemi)"))
+            if cible==0 : 
+                passiveplayer.setMPV(-activeplayer.__main[choix].getValeur())
+            else : 
+                passiveplayer.__zdj[cible-1].setPV(-activeplayer.__main[choix].getValeur())
+                if passiveplayer.__zdj[cible-1].getPV()<=0 : 
+                    passiveplayer.__zdj.pop(cible-1)
+                else : 
+                    print(str(passiveplayer.__zdj[cible-1].getNom) + " a " + str(passiveplayer.__zdj[cible-1].getPV) + " pv.")
+
+def attaquer():
+    attaquant = activeplayer.__zdj[input("Avec quelle créature attaquez-vous ?")] 
+    if attaquant.getType():
+        cible = (input("Entrez le numéro de votre cible (0 pour le joueur ennemi)"))
+        if cible==0 : 
+            passiveplayer.setMPV(-activeplayer.__main[attaquant].getAtt())
+        else : 
+            passiveplayer.__zdj[cible-1].setPV(-activeplayer.__main[attaquant].getAtt())
+            if passiveplayer.__zdj[cible-1].getPV()<=0 : 
+                passiveplayer.__zdj.pop(cible-1)
+            else : 
+                print(str(passiveplayer.__zdj[cible-1].getNom) + " a " + str(passiveplayer.__zdj[cible-1].getPV) + " pv.")
+
+def tour ():
+    global activeplayer,passiveplayer
+    player1.stats()
+    player2.stats()
+    choix = input("Jouer une carte, attaquer ou passer votre tour ?")
+    if choix==1 : 
+        jouer()
+    elif choix==2 : 
+        attaquer()
+    else : 
+        stock = activeplayer
+        activeplayer = passiveplayer
+        passiveplayer = stock
+        
+
+
 #code
 player1.stats()
 player2.stats()
-test.cStats()
+troll.cStats()
+cristal1.cStats()
+bdf.cStats()
+
+while player1.getMPV>=0 or player2.getMPV>=0 : 
+    tour()
+
 
