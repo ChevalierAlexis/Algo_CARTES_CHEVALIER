@@ -1,11 +1,11 @@
-from msilib.schema import Class
-
-
 class Carte : 
     def __init__ (self,mana,nom,description):
         self.__mana =mana
         self.__nom = nom
         self.__des = description
+
+    def getMana (self):
+        return self.__mana
 
 class Mage : 
     def __init__ (self,mNom):
@@ -31,9 +31,11 @@ class Mage :
     def setPV (self, valeur):
         self.__mPv=self.__mPv+valeur      
 
-    # def jouer (self) : 
-    #     choix = input("Entrez le numéro de la carte que vous voulez jouer. \n")
-    #     if self.__main[choix]: 
-    #         carte = self.__main.pop(choix)
-    #         self.__zdj.append(carte)
+    def jouer (self) : 
+        choix = input("Entrez le numéro de la carte que vous voulez jouer. \n")
+        prix = self.__main[choix].getMana()
+        if prix<=self.getMMana(): 
+            carte = self.__main.pop(choix)
+            self.__zdj.append(carte)
+            self.setMana(-prix)
         
