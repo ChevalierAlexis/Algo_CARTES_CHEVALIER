@@ -79,7 +79,8 @@ class Mage :
 
 
 class Cristal (Carte) :
-    def __init__(self,valeur):
+    def __init__(self,mana,nom,description,valeur):
+        Carte.__init__(self,mana,nom,description)
         self.__valeur = valeur
         self.type = "Cristal"
     
@@ -92,7 +93,8 @@ class Cristal (Carte) :
 
 
 class Creature (Carte) : 
-    def __init__(self,pv,att) : 
+    def __init__(self,mana,nom,description,pv,att) : 
+        Carte.__init__(self,mana,nom,description)
         self.__pv = pv
         self.__att = att
         self.type = "Creature"
@@ -109,10 +111,20 @@ class Creature (Carte) :
     def getType (self):
         return self.type
 
+    def getAtt (self):
+        return self.__att
+
+    def getPV (self):
+        return self.__pv
+
+    def cStats (self) : 
+        print ("Cette carte est de type " + str(self.getType()) + ", coûte " + str(self.getMana()) + ", ses pv sont de " + str(self.getPV()) + ", son attaque est de " + str(self.getAtt()) +" et sa description est : " + str(self.getDes()))
+
 
  
 class Blast (Carte) :
-    def __init__ (self, valeurB) : 
+    def __init__ (self,mana,nom,description, valeurB) : 
+        Carte.__init__(self,mana,nom,description)
         self.__valeurB = valeurB
         self.type = "Blast"
 
@@ -127,7 +139,8 @@ class Blast (Carte) :
 #Création des objets
 player1 = Mage(input ("Choisissez votre nom \n"))
 player2 = Mage(input ("Choisissez votre nom \n"))
-test = Carte(3,"Troll", "urqhrsghtightdi")
+test = Creature(3,"Troll", "urqhrsghtightdi",10,5)
+
 # cristal1 = Cristal(1)
 # cristal2 = Cristal(2)
 # cristal3 = Cristal(3)
