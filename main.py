@@ -1,8 +1,9 @@
 class Carte : 
     def __init__ (self,mana,nom,description):
-        self.__mana =mana
+        self.__mana = mana
         self.__nom = nom
         self.__des = description
+        self.isCristal = False
 
     def getMana (self):
         return self.__mana
@@ -25,6 +26,12 @@ class Mage :
         if self.__mMana>10 : 
             self.__mMana=10
 
+    def getMManaTot (self):
+        return self.__mManaTot
+
+    def setManaTot (self,valeur):
+        self.__mManaTot=self.__mManaTot+valeur
+
     def getPV (self) : 
         return self.__mPv
 
@@ -38,4 +45,13 @@ class Mage :
             carte = self.__main.pop(choix)
             self.__zdj.append(carte)
             self.setMana(-prix)
+            if choix.isCristal == True : 
+                self.setManaTot(carte.getValeur())
         
+class Cristal (Carte) :
+    def __init__(self,valeur):
+        self.__valeur = valeur
+        self.isCristal = True
+    
+    def getValeur (self) : 
+        return self.__valeur
