@@ -8,6 +8,8 @@ class Carte :
     def getMana (self):
         return self.__mana
 
+
+
 class Mage : 
     def __init__ (self,mNom):
         self.__mNom = mNom
@@ -32,10 +34,10 @@ class Mage :
     def setManaTot (self,valeur):
         self.__mManaTot=self.__mManaTot+valeur
 
-    def getPV (self) : 
+    def getMPV (self) : 
         return self.__mPv
 
-    def setPV (self, valeur):
+    def setMPV (self, valeur):
         self.__mPv=self.__mPv+valeur      
 
     def jouer (self) : 
@@ -48,10 +50,35 @@ class Mage :
             if choix.isCristal == True : 
                 self.setManaTot(carte.getValeur())
         
+
+
 class Cristal (Carte) :
     def __init__(self,valeur):
         self.__valeur = valeur
         self.isCristal = True
+        self.isMage = False
     
     def getValeur (self) : 
         return self.__valeur
+
+
+
+class Creature (Carte) : 
+    def __init__(self,pv,att) : 
+        self.__pv = pv
+        self.__att = att
+        self.isCristal = False
+        self.isMage = False
+
+    def getPV (self) : 
+        return self.__pv
+
+    def setPV (self, valeur) : 
+        self.__pv = self.__pv+valeur
+
+    def getAtt (self) : 
+        return self.__att
+
+
+ 
+
