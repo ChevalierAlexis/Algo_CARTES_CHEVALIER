@@ -19,6 +19,8 @@ class Mage :
         self.__main = []
         self.__defausse = []
         self.__zdj = []
+        self.isMage = True
+        self.isCristal = False
 
     def getMMana (self):
         return self.__mMana
@@ -81,4 +83,9 @@ class Creature (Carte) :
 
 
  
+class Blast (Carte) :
+    def __init__ (self, valeurB) : 
+        self.__valeurB = valeurB
 
+    def getValeurB (self) : 
+        return self.__valeurB
